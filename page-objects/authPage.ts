@@ -11,7 +11,9 @@ export class AuthPage{
     readonly emailFieldSignup: Locator
     readonly signupButton: Locator
     readonly loginForm: Locator
-    readonly errorMessage: Locator
+    readonly signupForm: Locator
+    readonly loginErrorMessage: Locator
+    readonly signupErrorMessage: Locator
 
     constructor(page: Page){
         this.page = page
@@ -22,7 +24,9 @@ export class AuthPage{
         this.emailFieldSignup = this.page.locator('.signup-form').getByPlaceholder('Email Address')
         this.signupButton = this.page.getByRole('button', {name: 'Signup'})
         this.loginForm = this.page.locator('.login-form')
-        this.errorMessage = this.page.getByText('Your email or password is incorrect!')
+        this.signupForm = this.page.locator('.signup-form')
+        this.loginErrorMessage = this.page.getByText('Your email or password is incorrect!')
+        this.signupErrorMessage = this.page.getByText('Email Address already exist!')
     }
 
     async signup(name: string, email: string){
@@ -41,7 +45,16 @@ export class AuthPage{
         await expect(this.loginForm).toBeVisible()
     }
 
-    async expectErrorMessage(){
-        await expect(this.errorMessage).toBeVisible()
+    async expectSignupForm(){
+        await expect(this.signupForm).toBeVisible()
     }
+
+    async expectLoginErrorMessage(){
+        await expect(this.loginErrorMessage).toBeVisible()
+    }
+
+    async expectSignupErrorMessage(){
+        await expect(this.signupErrorMessage).toBeVisible()
+    }
+
 }

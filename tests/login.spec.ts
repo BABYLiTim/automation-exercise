@@ -41,5 +41,5 @@ test('User cannot login with invalid credentials', async ({ pages }) => {
     await pages.auth.login(user)
 
     // Verify error 'Your email or password is incorrect!' is visible
-    await pages.auth.expectErrorMessage()
+    await pages.auth.expectLoginErrorMessage()
 })

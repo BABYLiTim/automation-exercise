@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 import { SignupData } from '../types/signupData'
 import { Gender } from '../types/gender'
 import { Country } from '../types/country'
+import { users } from '../test-data/users'
 
 test('Sign Up', async ({ pages }) => {
     const signupData: SignupData = {
@@ -36,4 +37,14 @@ test('Sign Up', async ({ pages }) => {
     await pages.home.deleteAccount()
     await pages.home.expectAccountDeleted()
     await pages.home.continueAfterAccountDeletion()
+})
+
+test('Register User with existing email', async ({pages}) => {
+    const user = users.valid
+
+    await pages.home.openSignupLoginPage()
+    await pages.auth.expectSignupForm()
+
+    await pages.auth.signup(user.name, user.email)
+    await pages.auth.expectSignupErrorMessage()
 })

@@ -1,4 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test'
+import { UserCredentials } from '../types/userCredentials'
 
 
 export class AuthPage{
@@ -30,9 +31,9 @@ export class AuthPage{
         await this.signupButton.click()
     }
 
-    async login(email: string, password: string){
-        await this.emailFieldLogin.fill(email)
-        await this.passwordFieldLogin.fill(password)
+    async login(user: UserCredentials){
+        await this.emailFieldLogin.fill(user.email)
+        await this.passwordFieldLogin.fill(user.password)
         await this.loginButton.click()
     }
 

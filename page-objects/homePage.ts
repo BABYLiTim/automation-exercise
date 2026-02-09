@@ -1,5 +1,6 @@
 import { Locator, Page } from '@playwright/test'
 import { expect } from '@playwright/test'
+import { SubscriptionComponent } from '../components/subscription.component'
 
 
 export class HomePage{
@@ -18,6 +19,8 @@ export class HomePage{
     readonly accountDeletedHeading: Locator
     readonly continueButton: Locator
 
+    readonly subscription: SubscriptionComponent
+
     constructor(page: Page){
         this.page = page
         this.home = this.page.getByRole('link', {name: ' Home'})
@@ -32,6 +35,8 @@ export class HomePage{
         this.accountDeletedHeading = this.page.getByRole('heading', {name: 'Account Deleted!'})
         this.continueButton = this.page.getByRole('link', {name: 'Continue'})
         this.logoutButton = this.page.getByRole('link', {name: 'Logout'})
+
+        this.subscription = new SubscriptionComponent(page.locator('#footer'))
     }
 
     async expectAccountDeleted(){

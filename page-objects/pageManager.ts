@@ -5,6 +5,7 @@ import { SignupPage } from './signupPage'
 import { ContactUsPage } from './contactusPage'
 import { ProductsPage } from '../page-objects/ProductsPage'
 import { ProductDetailsPage } from '../page-objects/productDetailsPage'
+import { CartPage } from './cartPage'
 
 export class PageManager {
   readonly page: Page
@@ -14,6 +15,7 @@ export class PageManager {
   readonly contactUs: ContactUsPage
   readonly productsPage: ProductsPage
   readonly productDetailsPage: ProductDetailsPage
+  readonly cartPage: CartPage
 
   constructor(page: Page) {
     this.page = page
@@ -23,6 +25,7 @@ export class PageManager {
     this.contactUs = new ContactUsPage(page)
     this.productsPage = new ProductsPage(page)
     this.productDetailsPage = new ProductDetailsPage(page)
+    this.cartPage = new CartPage(page)
   }
 }
 

@@ -1,6 +1,7 @@
 import { Page, Locator } from '@playwright/test'
 import { expect } from '@playwright/test'
 import { ProductCard } from '../components/productCard.component'
+import { AddedToCartPopUp } from '../components/addedToCart.component'
 
 export class ProductsPage {
   readonly page: Page
@@ -10,6 +11,8 @@ export class ProductsPage {
   readonly submitSearch: Locator
   readonly searchedProductsTitle: Locator
   readonly productCardRoots: Locator
+  readonly addToCart: Locator
+  readonly addedToCartPopUp: AddedToCartPopUp
 
   constructor(page: Page) {
     this.page = page
@@ -19,6 +22,8 @@ export class ProductsPage {
     this.submitSearch = page.locator('#submit_search')
     this.searchedProductsTitle = page.getByRole('heading', {name: 'Searched Products'})
     this.productCardRoots = page.locator('.productinfo')
+    this.addToCart = page.locator('.productinfo .add-to-cart').first()
+    this.addedToCartPopUp = new AddedToCartPopUp(page.locator('.modal-content'))
   }
 
   async open() {
@@ -53,4 +58,14 @@ export class ProductsPage {
       await card.expectNameContains(searchText)
     }
   }
+
+  // async addProductToCart(){
+  //   await this.productCardRoots.first().hover()
+  //   await this.addToCart.click()
+  // }
+
+  async getProductCard(index: number): Promise<ProductCard> {
+    return new ProductCard(this.productCardRoots.nth(index))
+  }
+
 }

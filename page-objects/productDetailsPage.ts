@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test'
+import { AddedToCartPopUp } from '../components/addedToCart.component'
 
 export class ProductDetailsPage {
   readonly page: Page
@@ -9,6 +10,9 @@ export class ProductDetailsPage {
   readonly availability: Locator
   readonly condition: Locator
   readonly brand: Locator
+  readonly quantity: Locator
+  readonly addToCartButton: Locator
+  readonly addedToCartPopUp: AddedToCartPopUp
 
   constructor(page: Page) {
     this.page = page
@@ -19,6 +23,9 @@ export class ProductDetailsPage {
     this.availability = page.getByText('Availability:')
     this.condition = page.getByText('Condition:')
     this.brand = page.getByText('Brand:')
+    this.quantity = page.locator('#quantity')
+    this.addToCartButton = page.getByRole('button', {name: 'Add to cart'})
+    this.addedToCartPopUp = new AddedToCartPopUp(page.locator('.modal-content'))
   }
 
   async verifyProductDetailsVisible() {
@@ -28,5 +35,13 @@ export class ProductDetailsPage {
     await expect(this.availability).toBeVisible()
     await expect(this.condition).toBeVisible()
     await expect(this.brand).toBeVisible()
+  }
+
+  async increaseQuanity(times: string) {
+    await this.quantity.fill(times)
+  }
+
+  async addToCart(){
+    await this.addToCartButton.click()
   }
 }

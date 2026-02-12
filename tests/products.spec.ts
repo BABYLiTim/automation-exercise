@@ -49,3 +49,17 @@ test('User can add two products to cart and verify totals', async ({ pages }) =>
   expect(items[1].total).toBe(secondPrice)
 })
 
+test('User can increase a quantity of the product', async ({ pages }) => {
+  
+  await pages.productsPage.openFirstProduct()
+  await pages.productDetailsPage.verifyProductDetailsVisible()
+
+  await pages.productDetailsPage.increaseQuanity('4')
+  await pages.productDetailsPage.addToCart()
+  await pages.productDetailsPage.addedToCartPopUp.viewCart()
+
+  const item = await pages.cartPage.cartTable.getItems()
+
+  expect(item[0].quantity).toBe(4)
+})
+

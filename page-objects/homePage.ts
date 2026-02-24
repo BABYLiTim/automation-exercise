@@ -1,6 +1,7 @@
 import { Locator, Page } from '@playwright/test'
 import { expect } from '@playwright/test'
 import { SubscriptionComponent } from '../components/subscription.component'
+import { ProductCard } from '../components/productCard.component'
 
 
 export class HomePage{
@@ -13,6 +14,7 @@ export class HomePage{
     readonly apiTesting: Locator
     readonly videoTutorials: Locator
     readonly contactUs: Locator
+    readonly productCardRoots: Locator
 
     readonly deleteAccountButton: Locator
     readonly logoutButton: Locator
@@ -35,8 +37,10 @@ export class HomePage{
         this.accountDeletedHeading = this.page.getByRole('heading', {name: 'Account Deleted!'})
         this.continueButton = this.page.getByRole('link', {name: 'Continue'})
         this.logoutButton = this.page.getByRole('link', {name: 'Logout'})
+        this.productCardRoots = page.locator('.productinfo')
 
         this.subscription = new SubscriptionComponent(page.locator('#footer'))
+        this
     }
 
     async expectAccountDeleted(){
@@ -93,5 +97,9 @@ export class HomePage{
 
     async logout(){
         await this.logoutButton.click()
+    }
+
+    async getProductCard(index: number): Promise<ProductCard> {
+        return new ProductCard(this.productCardRoots.nth(index))
     }
 }

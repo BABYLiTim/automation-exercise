@@ -21,7 +21,7 @@ export class DeliveryAddress {
     }
 
     async expectDeliveryAddress(data: {
-       gender: Gender
+       //gender: Gender 
        firstName: string
        lastName: string
        address: string

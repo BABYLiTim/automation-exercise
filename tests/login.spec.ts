@@ -20,7 +20,7 @@ test('User can login with valid credentials', async ({ pages }) => {
    await pages.auth.login(user)
 
    // Verify that 'Logged in as username' is visible
-   await pages.home.expectUserLoggedIn(user.name)
+   await pages.home.expectUserLoggedIn(user.userDetails.firstName)
 })
 
 test('User cannot login with invalid credentials', async ({ pages }) => {

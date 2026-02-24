@@ -21,8 +21,8 @@ export class CartTable {
 
     const items: CartItem[] = []
 
-    for (let i = 0; i < count; i++) {
-      const row = rows.nth(i)
+    for (let i = 1; i < count; i++) {
+      const row = rows.nth(i - 1)
 
       const name = (await row.locator('.cart_description a').textContent())!.trim()
       const price = Number((await row.locator('.cart_price').textContent())!.replace(/[^0-9]/g, ''))

@@ -5,13 +5,11 @@ const authFile = path.join(__dirname, '../playwright/.auth/user.json');
 
 setup('Consent the Cookie Banner', async({page}) => {
     await page.goto('/')
-    await page.waitForLoadState('domcontentloaded');
+    const consentButton = page.getByRole('button', {name: 'Consent'})
 
-    await page.screenshot({ path: 'before-click.png', fullPage: true });
-
-    const content = await page.content();
-    console.log(content);
-    await page.getByRole('button', {name: 'Consent'}).click()
-
+    if (await consentButton.count() > 0) {
+        await consentButton.first().click();
+    }
+    
     await page.context().storageState({ path: authFile });
 })

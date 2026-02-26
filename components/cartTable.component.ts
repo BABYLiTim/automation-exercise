@@ -1,4 +1,5 @@
 import { Locator } from "@playwright/test"
+import { expect } from "@playwright/test"
 
 
 export type CartItem = {
@@ -10,9 +11,11 @@ export type CartItem = {
 
 export class CartTable {
   readonly root: Locator
+  readonly removeProductButton: Locator
 
   constructor(root: Locator) {
     this.root = root
+    this.removeProductButton = this.root.locator('.cart_delete')
   }
 
   async getItems(): Promise<CartItem[]> {
@@ -33,5 +36,32 @@ export class CartTable {
     }
 
     return items
+  }
+
+  async removeProductByName(name: string) {
+    const rows = this.root.locator('tbody tr')
+    const count = await rows.count()
+
+    for (let i = 0; i < count; i++) {
+      const row = rows.nth(i)
+      const productName = (await row.locator('.cart_description a').textContent())!.trim()
+
+      if (productName === name) {
+        await row.locator('.cart_delete a').click()
+        return
+      }
+    }
+
+    throw new Error(`Product "${name}" not found in cart`)
+  }
+
+  async expectProductRemoved(name: string) {
+    const row = this.root
+      .locator('tbody tr')
+      .filter({
+        has: this.root.locator('.cart_description a', { hasText: name })
+      })
+
+    await expect(row).toHaveCount(0)
   }
 }

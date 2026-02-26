@@ -70,3 +70,32 @@ test('User can increase a quantity of the product', async ({ pages }) => {
 
   expect(item[0].quantity).toBe(4)
 })
+
+test('User can remove products from cart', async ({pages}) => {
+  // 1. Verify that home page is visible successfully
+  await pages.home.expectHomePage()
+
+  // 2. Add products to cart
+  const firstProduct = await pages.home.getProductCard(0)
+  const secondProduct = await pages.home.getProductCard(1)
+
+  const firstProductName = await firstProduct.getName()
+  const secondProductName = await secondProduct.getName()
+
+  await firstProduct.addToCart()
+  await pages.productsPage.addedToCartPopUp.continueShopping()
+
+  await secondProduct.addToCart()
+  await pages.productsPage.addedToCartPopUp.viewCart()
+
+  // 3. Verify that cart page is displayed
+  await pages.cartPage.expectCartPage()
+
+  // 4. Click 'X' button corresponding to particular product
+  await pages.cartPage.cartTable.removeProductByName(firstProductName)
+  await pages.cartPage.cartTable.removeProductByName(secondProductName)
+
+  // 5. Verify that product is removed from the cart
+  await pages.cartPage.cartTable.expectProductRemoved(firstProductName)
+  await pages.cartPage.cartTable.expectProductRemoved(secondProductName)
+})

@@ -50,5 +50,5 @@ export class CartPage{
         await this.signup.createAccount(signupData)
         await this.signup.actions.expectAccountCreated()
         await this.signup.actions.continue()
-}
+    }
 }
